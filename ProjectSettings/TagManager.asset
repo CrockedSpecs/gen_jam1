@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - UILevel
   - Floor
-  - bullet
   layers:
   - Default
   - TransparentFX
