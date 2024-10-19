@@ -12,6 +12,7 @@ public class Shoot : MonoBehaviour
     
     void Start()
     {
+        /*
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         if(playerMovement.facingRight)
         {
@@ -19,8 +20,11 @@ public class Shoot : MonoBehaviour
         }
         else if(!playerMovement.facingRight)
         {
-            direction = -1;    
+            direction = 1;    
         }
+        */
+
+        direction = 1;
     }
 
     // Update is called once per frame
@@ -29,4 +33,12 @@ public class Shoot : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime * direction);
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Entro");
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
 }
