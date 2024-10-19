@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     Animator animatorPlayer;
     public GameObject bullet;
 
-    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip;
+    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip, damageAudioClip, winAudioClip;
     [SerializeField] private bool isFloor;
     [SerializeField] private int energy, lifes;
 
@@ -27,12 +27,18 @@ public class PlayerMovement : MonoBehaviour
         energy = 5;
         lifes = 3;
 
+        InvokeRepeating("GetEnergy", 0, 10);
     }
     void Update()
     {
         // Obtener la entrada del jugador
         movement.x = Input.GetAxisRaw("Horizontal"); // Flechas o A/D
         shoot();
+
+        if (lifes == 0)
+        {
+            GameManager.instance.GameOver();
+        }
 
     }
 
@@ -136,6 +142,19 @@ public class PlayerMovement : MonoBehaviour
                 isFloor = true;
             }
         }
+
+        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
+        {
+            AudioManager.instance.PlaySFX(damageAudioClip);
+            lifes--;
+            GameManager.instance.ChangeLife(lifes, false);
+        }
+
+        else if (collision.gameObject.CompareTag("Finish") && lifes > 0)
+        {
+            AudioManager.instance.PlaySFX(winAudioClip);
+            GameManager.instance.ChanceScene("ProceduralLevel");
+        }
     }
     /*
     private void OnTriggerExit2D(Collider2D collision)
@@ -146,6 +165,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     */
+
+    private void GetEnergy()
+    {
+        if (energy < 5)
+        {
+            energy++;
+            GameManager.instance.ChangeEnergy(energy, true);
+        }
+    }
 }
 
 

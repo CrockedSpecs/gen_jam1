@@ -7,7 +7,7 @@ public class Shoot : MonoBehaviour
     [Range(0f, 100f)]
     public float speed;
     PlayerMovement playerMovement;
-    bool centinelaFlip = false;
+    //bool centinelaFlip = false;
     private int direction;
 
     [SerializeField] private AudioClip collisonAudioClip;
