@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - UILevel
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -12,12 +13,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Floor
   - 
   - 
   - Room
-  - 
-  - 
+  - exitDoor
+  - treasure
   - 
   - 
   - 
