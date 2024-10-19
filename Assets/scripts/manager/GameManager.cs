@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     //ChanceScene
     public void ChanceScene(string seneName)
     {
-        SceneManager.LoadScene(seneName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(seneName);
     }
 
     //PauseGame
