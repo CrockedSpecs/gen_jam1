@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip;
     [SerializeField] private bool isFloor;
+    [SerializeField] private int energy, lifes;
 
     private Vector2 movement; // Almacena la dirección del movimiento
     private void Start()
@@ -22,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         animatorPlayer = GetComponent<Animator>();
+
+        energy = 5;
+        lifes = 3;
 
     }
     void Update()
@@ -72,8 +76,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void shoot()
     {
-        if(Input.GetKeyDown(KeyCode.J) && onFloor)
+        if(Input.GetKeyDown(KeyCode.J) && onFloor && energy > 0)
         {
+            energy--;
+            GameManager.instance.ChangeEnergy(energy, false);
+
             AudioManager.instance.PlaySFX(shootAudioclip);
             animatorPlayer.SetTrigger("shoot");
             if (!facingRight)

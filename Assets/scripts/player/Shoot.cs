@@ -9,7 +9,10 @@ public class Shoot : MonoBehaviour
     PlayerMovement playerMovement;
     bool centinelaFlip = false;
     private int direction;
-    
+
+    [SerializeField] private AudioClip collisonAudioClip;
+    [SerializeField] private int usefulLife;
+
     void Start()
     {
         /*
@@ -25,12 +28,17 @@ public class Shoot : MonoBehaviour
         */
 
         direction = 1;
+        usefulLife = 3;
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime * direction);
+        if(usefulLife <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -39,6 +47,8 @@ public class Shoot : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             Destroy(collision.gameObject);
+            AudioManager.instance.PlaySFX(collisonAudioClip);
+            usefulLife --;
         }
     }
 }
