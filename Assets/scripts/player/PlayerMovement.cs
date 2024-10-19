@@ -7,9 +7,11 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;// Velocidad de movimiento
     public Rigidbody2D rb; // Referencia al Rigidbody2D
     public bool onFloor,
-                jumpBool, 
+                jumpBool,
+                shootBool = false,
                 facingRight = true;
     Animator animatorPlayer;
+    public GameObject bullet;
 
     private Vector2 movement; // Almacena la dirección del movimiento
     private void Start()
@@ -17,12 +19,13 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         animatorPlayer = GetComponent<Animator>();
+
     }
     void Update()
     {
         // Obtener la entrada del jugador
         movement.x = Input.GetAxisRaw("Horizontal"); // Flechas o A/D
-        
+        shoot();
 
     }
 
@@ -40,18 +43,31 @@ public class PlayerMovement : MonoBehaviour
                 animatorPlayer.SetBool("jump", jumpBool);
                 animatorPlayer.SetBool("onFloor", onFloor);
             }
-            if (Input.GetKey(KeyCode.J))
-            {
-                animatorPlayer.SetTrigger("shoot");
-            }
+            //if (Input.GetKey(KeyCode.J))
+            //{
+            //    animatorPlayer.SetTrigger("shoot");
+            //    shootBool = true;
+            //}
             if (movement.x > 0 && !facingRight)
             {
-                Flip();
+                transform.rotation = Quaternion.Euler(0,0,0);
+                Debug.Log("True" + facingRight);
+                facingRight = !facingRight;
             }
             else if(movement.x < 0 && facingRight)
             {
-                Flip();
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                Debug.Log("False" + facingRight);
+                facingRight = !facingRight;
             }
+        }
+    }
+    void shoot()
+    {
+        if(Input.GetKeyDown(KeyCode.J) && onFloor)
+        {
+            animatorPlayer.SetTrigger("shoot");
+            Instantiate(bullet, transform.position, Quaternion.identity);
         }
     }
 
