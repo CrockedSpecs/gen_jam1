@@ -7,6 +7,7 @@ public class lvlGeneration : MonoBehaviour
 {
 
     public Transform[] startingPositions;
+    public Transform[] endingPositions;
     public GameObject[] rooms; // index 0 --> closed, index 1 --> LR, index 2 --> LRB, index 3 --> LRT, index 4 --> LRBT
 
     private int direction;
@@ -16,7 +17,7 @@ public class lvlGeneration : MonoBehaviour
     private float timeBtwSpawn;
     public float startTimeBtwSpawn;
     public GameObject initialRoom;
-    private int max;
+    public GameObject finalRoom;
 
     public LayerMask whatIsRoom;
 
@@ -26,8 +27,10 @@ public class lvlGeneration : MonoBehaviour
 
     private void Start()
     {
-        max = 15;
         int randStartingPos = Random.Range(0, startingPositions.Length);
+        int randEndingPos = Random.Range(0, endingPositions.Length);
+        transform.position = endingPositions[randEndingPos].position;
+        Instantiate(finalRoom, transform.position, Quaternion.identity);
         transform.position = startingPositions[randStartingPos].position;
         Instantiate(initialRoom, transform.position, Quaternion.identity);
         Instantiate(Player, transform.position, Quaternion.identity);
@@ -54,7 +57,7 @@ public class lvlGeneration : MonoBehaviour
         if (direction == 1 || direction == 2)
         { // Move right !
 
-            if (transform.position.x < max)
+            if (transform.position.x < 15)
             {
                 Vector2 pos = new Vector2(transform.position.x + moveIncrement, transform.position.y);
                 transform.position = pos;
@@ -81,7 +84,7 @@ public class lvlGeneration : MonoBehaviour
         else if (direction == 3 || direction == 4)
         { // Move left !
 
-            if (transform.position.x > -max)
+            if (transform.position.x > -15)
             {
                 Vector2 pos = new Vector2(transform.position.x - moveIncrement, transform.position.y);
                 transform.position = pos;
@@ -99,7 +102,7 @@ public class lvlGeneration : MonoBehaviour
         }
         else if (direction == 5)
         { // MoveDown
-            if (transform.position.y > -max)
+            if (transform.position.y > -15)
             {
                 Vector2 pos = new Vector2(transform.position.x, transform.position.y - moveIncrement);
                 transform.position = pos;
