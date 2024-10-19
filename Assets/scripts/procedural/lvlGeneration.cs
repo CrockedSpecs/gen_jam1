@@ -16,15 +16,17 @@ public class lvlGeneration : MonoBehaviour
     private float timeBtwSpawn;
     public float startTimeBtwSpawn;
     public GameObject initialRoom;
+    private int max;
 
     public LayerMask whatIsRoom;
 
     public GameObject Player;
 
 
+
     private void Start()
     {
-
+        max = 15;
         int randStartingPos = Random.Range(0, startingPositions.Length);
         transform.position = startingPositions[randStartingPos].position;
         Instantiate(initialRoom, transform.position, Quaternion.identity);
@@ -52,7 +54,7 @@ public class lvlGeneration : MonoBehaviour
         if (direction == 1 || direction == 2)
         { // Move right !
 
-            if (transform.position.x < 15)
+            if (transform.position.x < max)
             {
                 Vector2 pos = new Vector2(transform.position.x + moveIncrement, transform.position.y);
                 transform.position = pos;
@@ -79,7 +81,7 @@ public class lvlGeneration : MonoBehaviour
         else if (direction == 3 || direction == 4)
         { // Move left !
 
-            if (transform.position.x > -15)
+            if (transform.position.x > -max)
             {
                 Vector2 pos = new Vector2(transform.position.x - moveIncrement, transform.position.y);
                 transform.position = pos;
@@ -97,7 +99,7 @@ public class lvlGeneration : MonoBehaviour
         }
         else if (direction == 5)
         { // MoveDown
-            if (transform.position.y > -15)
+            if (transform.position.y > -max)
             {
                 Vector2 pos = new Vector2(transform.position.x, transform.position.y - moveIncrement);
                 transform.position = pos;
