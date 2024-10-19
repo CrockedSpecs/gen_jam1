@@ -163,7 +163,7 @@ MonoBehaviour:
   whatIsRoom:
     serializedVersion: 2
     m_Bits: 0
-  Player: {fileID: 6597809889537301032, guid: d8f589982a9603746a08ec1097e6aed6, type: 3}
+  Player: {fileID: 0}
 --- !u!1 &1778272458756413409
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     //Declarations
     private bool isPaused;
 
-    [SerializeField] GameObject gameOver, life, energy;
+    [SerializeField] private GameObject gameOver, life, energy;
 
     //Create instance
     public static GameManager instance;
@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
     //PauseGame
     public void PauseGame()
     {
-        isPaused = !isPaused;
         if (isPaused)
         {
             Time.timeScale = 0;
@@ -57,6 +56,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+        isPaused = !isPaused;
     }
 
     //GameOver
