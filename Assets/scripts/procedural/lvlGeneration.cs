@@ -33,7 +33,8 @@ public class lvlGeneration : MonoBehaviour
         Instantiate(finalRoom, transform.position, Quaternion.identity);
         transform.position = startingPositions[randStartingPos].position;
         Instantiate(initialRoom, transform.position, Quaternion.identity);
-        Instantiate(Player, transform.position, Quaternion.identity);
+        Player.transform.position = new Vector2(startingPositions[randStartingPos].transform.position.x, startingPositions[randStartingPos].transform.position.y+0.5f);
+        //Instantiate(Player, new Vector2(transform.position.x,transform.position.y+2), Quaternion.identity);
 
         direction = Random.Range(1, 6);
     }
