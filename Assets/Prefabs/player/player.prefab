@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2925146806153262330}
   - component: {fileID: 538367473557310568}
   - component: {fileID: 151022346785260985}
-  - component: {fileID: 6371308806406129438}
   - component: {fileID: 7481683687059285584}
+  - component: {fileID: 7331035323340018156}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -136,8 +136,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!61 &6371308806406129438
-BoxCollider2D:
+--- !u!114 &7481683687059285584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6597809889537301032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf9dce64afac4a4f94ab2844f1f809c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 500
+  jumpForce: 350
+  rb: {fileID: 0}
+  onFloor: 0
+  jumpBool: 0
+  shootBool: 0
+  facingRight: 1
+  bullet: {fileID: 8956887037795773120, guid: e413efe14f86fce4cba9c82d40dabd0e, type: 3}
+  shootAudioclip: {fileID: 8300000, guid: 80e397195ea2940b69ee7bdbded856a5, type: 3}
+  jumpAudioClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
+  moveAudioClip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
+  damageAudioClip: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
+  winAudioClip: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
+  gameOverAudioClip: {fileID: 8300000, guid: a0ca8964c08d54c5dbebf245bdc474ca, type: 3}
+  reloadEnergyAudioClip: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
+  isFloor: 0
+  energy: 0
+  lifes: 0
+--- !u!58 &7331035323340018156
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -168,39 +198,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0032677278, y: -0.044909462}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.1875}
-    newSize: {x: 0.32, y: 0.38}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 1
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.21960624, y: 0.29018107}
-  m_EdgeRadius: 0
---- !u!114 &7481683687059285584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597809889537301032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cf9dce64afac4a4f94ab2844f1f809c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 500
-  jumpForce: 350
-  rb: {fileID: 0}
-  onFloor: 0
-  jumpBool: 0
-  shootBool: 0
-  facingRight: 1
-  bullet: {fileID: 8956887037795773120, guid: e413efe14f86fce4cba9c82d40dabd0e, type: 3}
-  shootAudioclip: {fileID: 8300000, guid: 80e397195ea2940b69ee7bdbded856a5, type: 3}
-  jumpAudioClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
-  moveAudioClip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
+  m_Radius: 0.19

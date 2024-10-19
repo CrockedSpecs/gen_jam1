@@ -19,15 +19,21 @@ public class SpawnEnemies : MonoBehaviour
 
     IEnumerator SpawnBat()
     {
-        Debug.Log("Te voy a morder");
         yield return new WaitForSeconds(1);
-        Debug.Log("Te voy a morder");
         Instantiate(bat, new Vector3(24, 0, 0), Quaternion.identity);
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(10);
         Instantiate(bat, new Vector3(-24, 0, 0), Quaternion.identity);
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(10);
         Instantiate(bat, new Vector3(0, 24, 0), Quaternion.identity);
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(10);
+        Instantiate(bat, new Vector3(0, -24, 0), Quaternion.identity);
+        yield return new WaitForSeconds(10);
+        Instantiate(bat, new Vector3(24, 0, 0), Quaternion.identity);
+        yield return new WaitForSeconds(10);
+        Instantiate(bat, new Vector3(-24, 0, 0), Quaternion.identity);
+        yield return new WaitForSeconds(10);
+        Instantiate(bat, new Vector3(0, 24, 0), Quaternion.identity);
+        yield return new WaitForSeconds(10);
         Instantiate(bat, new Vector3(0, -24, 0), Quaternion.identity);
     }
 }

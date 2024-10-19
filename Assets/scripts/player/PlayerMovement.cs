@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     Animator animatorPlayer;
     public GameObject bullet;
 
-    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip, damageAudioClip, winAudioClip;
+    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip, damageAudioClip, winAudioClip, gameOverAudioClip, reloadEnergyAudioClip;
     [SerializeField] private bool isFloor;
     [SerializeField] private int energy, lifes;
 
@@ -37,7 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (lifes == 0)
         {
+            AudioManager.instance.PlaySFX(gameOverAudioClip);
             GameManager.instance.GameOver();
+            Destroy(gameObject);
         }
 
     }
@@ -120,6 +122,13 @@ public class PlayerMovement : MonoBehaviour
                 animatorPlayer.SetBool("onFloor", onFloor);
             }
         }
+
+        else if (collision.gameObject.CompareTag("Limit") && lifes > 0)
+        {
+            onFloor = true;
+            isFloor = true;
+            animatorPlayer.SetBool("onFloor", onFloor);
+        }
     }
     /*
     private void OnCollisionExit2D(Collision2D collision)
@@ -171,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
         if (energy < 5)
         {
             energy++;
+            AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
             GameManager.instance.ChangeEnergy(energy, true);
         }
     }
