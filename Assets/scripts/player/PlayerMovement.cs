@@ -13,6 +13,10 @@ public class PlayerMovement : MonoBehaviour
     Animator animatorPlayer;
     public GameObject bullet;
 
+    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip, damageAudioClip, winAudioClip, gameOverAudioClip, reloadEnergyAudioClip;
+    [SerializeField] private bool isFloor;
+    [SerializeField] private int energy, lifes;
+
     private Vector2 movement; // Almacena la dirección del movimiento
     private void Start()
     {
@@ -20,12 +24,23 @@ public class PlayerMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         animatorPlayer = GetComponent<Animator>();
 
+        energy = 5;
+        lifes = 3;
+
+        InvokeRepeating("GetEnergy", 0, 10);
     }
     void Update()
     {
         // Obtener la entrada del jugador
         movement.x = Input.GetAxisRaw("Horizontal"); // Flechas o A/D
         shoot();
+
+        if (lifes == 0)
+        {
+            AudioManager.instance.PlaySFX(gameOverAudioClip);
+            GameManager.instance.GameOver();
+            Destroy(gameObject);
+        }
 
     }
 
@@ -34,12 +49,15 @@ public class PlayerMovement : MonoBehaviour
         
         rb.AddForce(movement * moveSpeed *Time.deltaTime);
         animatorPlayer.SetFloat("speed", Mathf.Abs(movement.x));
-        if (onFloor)
+        if (onFloor && isFloor)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
+                AudioManager.instance.PlaySFX(jumpAudioClip);
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
                 jumpBool = true;
+                onFloor = false;
+                isFloor = false;
                 animatorPlayer.SetBool("jump", jumpBool);
                 animatorPlayer.SetBool("onFloor", onFloor);
             }
@@ -50,12 +68,14 @@ public class PlayerMovement : MonoBehaviour
             //}
             if (movement.x > 0 && !facingRight)
             {
+                AudioManager.instance.PlaySFX(moveAudioClip);
                 transform.rotation = Quaternion.Euler(0,0,0);
                 Debug.Log("True" + facingRight);
                 facingRight = !facingRight;
             }
             else if(movement.x < 0 && facingRight)
             {
+                AudioManager.instance.PlaySFX(moveAudioClip);
                 transform.rotation = Quaternion.Euler(0, 180, 0);
                 Debug.Log("False" + facingRight);
                 facingRight = !facingRight;
@@ -64,10 +84,21 @@ public class PlayerMovement : MonoBehaviour
     }
     void shoot()
     {
-        if(Input.GetKeyDown(KeyCode.J) && onFloor)
+        if(Input.GetKeyDown(KeyCode.J) && onFloor && energy > 0)
         {
+            energy--;
+            GameManager.instance.ChangeEnergy(energy, false);
+
+            AudioManager.instance.PlaySFX(shootAudioclip);
             animatorPlayer.SetTrigger("shoot");
-            Instantiate(bullet, transform.position, Quaternion.identity);
+            if (!facingRight)
+            {
+                Instantiate(bullet, transform.position, Quaternion.Euler(0, 180, 0));
+            }
+            else
+            {
+                Instantiate(bullet, transform.position, Quaternion.identity);
+            }
         }
     }
 
@@ -84,11 +115,22 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             onFloor = true;
-            animatorPlayer.SetBool("onFloor", onFloor);
 
+            //Is he really on the ground or did he hit a wall?
+            if (isFloor)
+            {
+                animatorPlayer.SetBool("onFloor", onFloor);
+            }
+        }
+
+        else if (collision.gameObject.CompareTag("Limit") && lifes > 0)
+        {
+            onFloor = true;
+            isFloor = true;
+            animatorPlayer.SetBool("onFloor", onFloor);
         }
     }
-
+    /*
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -96,6 +138,50 @@ public class PlayerMovement : MonoBehaviour
             onFloor = false;
             animatorPlayer.SetBool("onFloor", onFloor);
 
+        }
+    }
+    */
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            //Is he really falling?
+            if (!isFloor)
+            {
+                isFloor = true;
+            }
+        }
+
+        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
+        {
+            AudioManager.instance.PlaySFX(damageAudioClip);
+            lifes--;
+            GameManager.instance.ChangeLife(lifes, false);
+        }
+
+        else if (collision.gameObject.CompareTag("Finish") && lifes > 0)
+        {
+            AudioManager.instance.PlaySFX(winAudioClip);
+            GameManager.instance.ChanceScene("ProceduralLevel");
+        }
+    }
+    /*
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            isFloor = false;
+        }
+    }
+    */
+
+    private void GetEnergy()
+    {
+        if (energy < 5)
+        {
+            energy++;
+            AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
+            GameManager.instance.ChangeEnergy(energy, true);
         }
     }
 }
