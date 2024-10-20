@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,9 @@ public class GameManager : MonoBehaviour
     //Declarations
     private bool isPaused;
 
-    [SerializeField] private GameObject gameOver, life, energy;
+    [SerializeField] private GameObject gameOver, life, energy, gameOverText;
+    [SerializeField] private TextMeshProUGUI gameOverTextText;
+    [SerializeField] private int levelIndex;
 
     //Create instance
     public static GameManager instance;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         isPaused = false;
+        levelIndex = 1;
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class GameManager : MonoBehaviour
     //ChanceScene
     public void ChanceScene(string seneName)
     {
+        levelIndex = 1;
         SceneManager.LoadScene(seneName);
     }
 
@@ -59,11 +64,22 @@ public class GameManager : MonoBehaviour
         isPaused = !isPaused;
     }
 
+    //Level++
+    public void PassLevel()
+    {
+        levelIndex ++;
+    }
+
     //GameOver
     public void GameOver()
     {
         gameOver = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(3).gameObject;
+        gameOverText = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(3).gameObject.transform.GetChild(1).gameObject;
+        gameOverTextText = gameOverText.GetComponent<TextMeshProUGUI>();
+        gameOverTextText.text = "You died at\n" + "level " + levelIndex.ToString();
+        levelIndex = 1;
         gameOver.SetActive(true);
+        AudioManager.instance.GameOver();
     }
 
     //ChangeLife

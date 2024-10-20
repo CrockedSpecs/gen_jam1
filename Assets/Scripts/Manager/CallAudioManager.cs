@@ -20,4 +20,9 @@ public class CallAudioManager : MonoBehaviour
     {
         AudioManager.instance.PlaySFX(audioClip);
     }
+
+    public void CallPlayMusic(AudioClip audioClip)
+    {
+        AudioManager.instance.PlayMusic(audioClip);
+    }
 }
