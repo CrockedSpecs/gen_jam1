@@ -52,6 +52,10 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
         musicSource.loop = true;
     }
+    public void GameOver()
+    {
+        musicSource.Stop();
+    }
 
     //Change MasterVolume
     public void MasterVolume(float sliderMusica)

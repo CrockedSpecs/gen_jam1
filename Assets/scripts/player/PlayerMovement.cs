@@ -163,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
         {
             AudioManager.instance.PlaySFX(winAudioClip);
             GameManager.instance.ChanceScene("ProceduralLevel");
+            GameManager.instance.PassLevel();
         }
     }
     /*
