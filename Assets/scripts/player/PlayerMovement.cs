@@ -13,7 +13,13 @@ public class PlayerMovement : MonoBehaviour
     Animator animatorPlayer;
     public GameObject bullet;
 
-    [SerializeField] private AudioClip shootAudioclip, jumpAudioClip, moveAudioClip, damageAudioClip, winAudioClip, gameOverAudioClip, reloadEnergyAudioClip;
+    [SerializeField] private AudioClip shootAudioclip, 
+                                        jumpAudioClip, 
+                                        moveAudioClip, 
+                                        damageAudioClip, 
+                                        winAudioClip, 
+                                        gameOverAudioClip, 
+                                        reloadEnergyAudioClip;
     [SerializeField] private bool isFloor;
     [SerializeField] private int energy, lifes;
 
@@ -46,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        
         rb.AddForce(movement * moveSpeed *Time.deltaTime);
         animatorPlayer.SetFloat("speed", Mathf.Abs(movement.x));
         if (onFloor && isFloor)
@@ -180,11 +185,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (energy < 5)
         {
-            energy++;
+            energy=5;
             AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
             GameManager.instance.ChangeEnergy(energy, true);
         }
     }
+
+    
 }
 
 
