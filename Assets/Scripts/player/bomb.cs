@@ -5,6 +5,8 @@ using UnityEngine;
 public class bomb : MonoBehaviour
 {
     private PlayerMovement player;
+    [SerializeField] private AudioClip bombInstanceAudioClip, explosionAudioClip, explosionReload;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,8 @@ public class bomb : MonoBehaviour
     IEnumerator Explosion()
     {
         player.waitForBoom = false; // Prevent other actions while waiting for the explosion
+        GameManager.instance.ChangeBombState(false);
+        AudioManager.instance.PlaySFX(bombInstanceAudioClip);
         yield return new WaitForSeconds(3f); // Wait before triggering the explosion
 
         CircleCollider2D collider = gameObject.transform.GetChild(0).GetComponent<CircleCollider2D>();
@@ -32,12 +36,15 @@ public class bomb : MonoBehaviour
         spriteRenderer.enabled = true;
         collider.enabled = true; 
         animation.enabled = true;
-        
+        AudioManager.instance.PlaySFX(explosionAudioClip);
+
 
         // Wait for a moment while the explosion effect is active
         yield return new WaitForSeconds(0.5f);
         spriteRenderer.enabled = false;
         player.waitForBoom = true; // Allow further actions
+        GameManager.instance.ChangeBombState(true);
+        AudioManager.instance.PlaySFX(explosionReload);
         Destroy(gameObject);
         
     }

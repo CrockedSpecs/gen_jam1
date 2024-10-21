@@ -484,9 +484,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3523909825351501350, guid: 5b43ad17b6583d341a0b1973422c4570, type: 3}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ChanceScene
+      - m_Target: {fileID: 7444938755874548281, guid: f2aeae03bd3765543adde9f89addb5f9, type: 3}
+        m_TargetAssemblyTypeName: CallGameManager, Assembly-CSharp
+        m_MethodName: CallChangeScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
