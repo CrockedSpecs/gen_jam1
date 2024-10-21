@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
     //ChanceScene
     public void ChangeScene(string seneName)
     {
+        isPaused = false;
+        Time.timeScale = 1;
+
         levelIndex = 1;
         SceneManager.LoadScene(seneName);
     }
@@ -54,7 +57,7 @@ public class GameManager : MonoBehaviour
     //PauseGame
     public void PauseGame()
     {
-        if (isPaused)
+        if (!isPaused)
         {
             Time.timeScale = 0;
         }
