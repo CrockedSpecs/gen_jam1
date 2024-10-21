@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
     void isPlayerNear()
     {
         distanceWithPlayer = Vector2.Distance(transform.position, player.transform.position);
-        
+        Debug.Log(distanceWithPlayer);
         if (distanceWithPlayer <= 4f)
         {
             findPlayer = true;

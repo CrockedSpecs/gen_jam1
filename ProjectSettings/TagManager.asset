@@ -10,7 +10,6 @@ TagManager:
   - Limit
   - player
   - bullet
-  - boom
   layers:
   - Default
   - TransparentFX
