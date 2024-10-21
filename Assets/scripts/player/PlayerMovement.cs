@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
                                         winAudioClip,
                                         gameOverAudioClip,
                                         reloadEnergyAudioClip;
-    [SerializeField] private bool isFloor, isEnergyEmpty, playerInmunity;
+    [SerializeField] private bool isFloor;
     [SerializeField] private int energy, lifes;
 
     private Vector2 movement; // Almacena la dirección del movimiento
@@ -33,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
         animatorPlayer = GetComponent<Animator>();
 
         energy = 5;
-        isEnergyEmpty = true;
         lifes = 3;
 
         InvokeRepeating("GetEnergy", 0, 5);
@@ -106,11 +104,6 @@ public class PlayerMovement : MonoBehaviour
                 Instantiate(bullet, transform.position, Quaternion.identity);
             }
         }
-        else if(energy == 0 && isEnergyEmpty)
-        {
-            isEnergyEmpty = false;
-            StartCoroutine("GetEnergy");
-        }
     }
 
     void Flip()
@@ -140,13 +133,11 @@ public class PlayerMovement : MonoBehaviour
             isFloor = true;
             animatorPlayer.SetBool("onFloor", onFloor);
         }
-        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0 && !playerInmunity)
+        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
         {
-            playerInmunity = true;
             AudioManager.instance.PlaySFX(damageAudioClip);
             lifes--;
             GameManager.instance.ChangeLife(lifes, false);
-            StartCoroutine("PlayerInmunity");
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -171,19 +162,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    IEnumerator GetEnergy()
-    { 
-        GameManager.instance.ChangeEnergy(energy, true);
-        yield return new WaitForSeconds(5);
-        AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
-        yield return new WaitForSeconds(0.1f);
-        energy = 5;
-        isEnergyEmpty = true;
-    }
-
-    IEnumerator PlayerInmunity()
+    private void GetEnergy()
     {
-        yield return new WaitForSeconds(1);
-        playerInmunity = false;
+        if (energy < 5)
+        {
+            energy = 5;
+            AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
+            GameManager.instance.ChangeEnergy(energy, true);
+        }
     }
 }
