@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 8211871393477431634}
   - component: {fileID: 3081758606593650213}
   - component: {fileID: -2876971368611827585}
-  - component: {fileID: 3989264918846750838}
   - component: {fileID: -2798713125669265636}
+  - component: {fileID: 5003499125816697161}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,8 +136,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!61 &3989264918846750838
-BoxCollider2D:
+--- !u!114 &-2798713125669265636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956887037795773120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3289f90a87b8f4c8b2df4d392aff99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5.1
+  collisonAudioClip: {fileID: 8300000, guid: 7bef0064f8567430cac22499c6b93d4f, type: 3}
+  usefulLife: 0
+--- !u!58 &5003499125816697161
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -165,33 +180,9 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.02, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.19512194, y: 0.19512194}
-    newSize: {x: 0.24615385, y: 0.24615385}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.07}
-  m_EdgeRadius: 0
---- !u!114 &-2798713125669265636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8956887037795773120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae3289f90a87b8f4c8b2df4d392aff99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5.1
-  collisonAudioClip: {fileID: 8300000, guid: 7bef0064f8567430cac22499c6b93d4f, type: 3}
+  m_Radius: 0.04

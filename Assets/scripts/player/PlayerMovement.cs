@@ -13,12 +13,13 @@ public class PlayerMovement : MonoBehaviour
     Animator animatorPlayer;
     public GameObject bullet;
 
-    [SerializeField] private AudioClip shootAudioclip, 
-                                        jumpAudioClip, 
-                                        moveAudioClip, 
-                                        damageAudioClip, 
-                                        winAudioClip, 
-                                        gameOverAudioClip, 
+    [SerializeField]
+    private AudioClip shootAudioclip,
+                                        jumpAudioClip,
+                                        moveAudioClip,
+                                        damageAudioClip,
+                                        winAudioClip,
+                                        gameOverAudioClip,
                                         reloadEnergyAudioClip;
     [SerializeField] private bool isFloor;
     [SerializeField] private int energy, lifes;
@@ -33,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         energy = 5;
         lifes = 3;
 
-        InvokeRepeating("GetEnergy", 0, 10);
+        InvokeRepeating("GetEnergy", 0, 5);
     }
     void Update()
     {
@@ -52,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.AddForce(movement * moveSpeed *Time.deltaTime);
+        rb.AddForce(movement * moveSpeed * Time.deltaTime);
         animatorPlayer.SetFloat("speed", Mathf.Abs(movement.x));
         if (onFloor && isFloor)
         {
@@ -74,22 +75,20 @@ public class PlayerMovement : MonoBehaviour
             if (movement.x > 0 && !facingRight)
             {
                 AudioManager.instance.PlaySFX(moveAudioClip);
-                transform.rotation = Quaternion.Euler(0,0,0);
-                Debug.Log("True" + facingRight);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
                 facingRight = !facingRight;
             }
-            else if(movement.x < 0 && facingRight)
+            else if (movement.x < 0 && facingRight)
             {
                 AudioManager.instance.PlaySFX(moveAudioClip);
                 transform.rotation = Quaternion.Euler(0, 180, 0);
-                Debug.Log("False" + facingRight);
                 facingRight = !facingRight;
             }
         }
     }
     void shoot()
     {
-        if(Input.GetKeyDown(KeyCode.J) && onFloor && energy > 0)
+        if (Input.GetKeyDown(KeyCode.J) && energy > 0)
         {
             energy--;
             GameManager.instance.ChangeEnergy(energy, false);
@@ -134,18 +133,13 @@ public class PlayerMovement : MonoBehaviour
             isFloor = true;
             animatorPlayer.SetBool("onFloor", onFloor);
         }
-    }
-    /*
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Floor"))
+        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
         {
-            onFloor = false;
-            animatorPlayer.SetBool("onFloor", onFloor);
-
+            AudioManager.instance.PlaySFX(damageAudioClip);
+            lifes--;
+            GameManager.instance.ChangeLife(lifes, false);
         }
     }
-    */
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
@@ -157,12 +151,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
-        {
-            AudioManager.instance.PlaySFX(damageAudioClip);
-            lifes--;
-            GameManager.instance.ChangeLife(lifes, false);
-        }
+        
 
         else if (collision.gameObject.CompareTag("Finish") && lifes > 0)
         {
@@ -171,27 +160,15 @@ public class PlayerMovement : MonoBehaviour
             GameManager.instance.PassLevel();
         }
     }
-    /*
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            isFloor = false;
-        }
-    }
-    */
+
 
     private void GetEnergy()
     {
         if (energy < 5)
         {
-            energy=5;
+            energy = 5;
             AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
             GameManager.instance.ChangeEnergy(energy, true);
         }
     }
-
-    
 }
-
-

@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     // Declarations
     [SerializeField] private float speed;
+    private float followSpeed;
     private Rigidbody2D rigidbody2;
     private GameObject player;
     private Vector2 initPos;
@@ -13,17 +14,22 @@ public class EnemyController : MonoBehaviour
     public float idleRange;
     public bool findPlayer;
 
+    private float distanceWithPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
+        followSpeed = speed * 1.5f;
         findPlayer = false;
         rigidbody2 = GetComponent<Rigidbody2D>();
         initPos = transform.position;
         randDir = Random.Range(0, 2);
+        player = GameObject.Find("Player");
     }
 
     void Update()
     {
+        isPlayerNear();
         if (!findPlayer)
         {
             idleMove();
@@ -34,7 +40,20 @@ public class EnemyController : MonoBehaviour
         }
 
     }
-
+    void isPlayerNear()
+    {
+        distanceWithPlayer = Vector2.Distance(transform.position, player.transform.position);
+        Debug.Log(distanceWithPlayer);
+        if (distanceWithPlayer <= 4f)
+        {
+            findPlayer = true;
+            initPos = transform.position;
+        }
+        else
+        {
+            findPlayer = false;
+        }
+    }
     void idleMove()
     {
         float currentPosX = transform.position.x;
@@ -63,8 +82,9 @@ public class EnemyController : MonoBehaviour
 
     void attackPlayer()
     {
-
+        transform.position = Vector2.MoveTowards(this.transform.position,player.transform.position,speed*1.5f * Time.deltaTime);
     }
+    
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -95,6 +115,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             findPlayer = false;
+            initPos = transform.position;
         }
     }
 }
