@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,8 +12,6 @@ public class PlayerMovement : MonoBehaviour
                 facingRight = true;
     Animator animatorPlayer;
     public GameObject bullet;
-    public GameObject Bomb;
-    public bool waitForBoom;
 
     [SerializeField]
     private AudioClip shootAudioclip,
@@ -30,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement; // Almacena la dirección del movimiento
     private void Start()
     {
-        waitForBoom = true;
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         animatorPlayer = GetComponent<Animator>();
@@ -52,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
             GameManager.instance.GameOver();
             Destroy(gameObject);
         }
-        setBomb();
 
     }
 
@@ -111,24 +106,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void setBomb()
-    {
-        if (waitForBoom)
-        {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                if (facingRight)
-                {
-                    Instantiate(Bomb, new Vector2(transform.position.x + 1, transform.position.y), quaternion.identity);
-                }
-                else if (!facingRight)
-                {
-                    Instantiate(Bomb, new Vector2(transform.position.x - 1, transform.position.y), quaternion.identity);
-                }
-            }
-        }
-
-    }
     void Flip()
     {
         facingRight = !facingRight; // Cambiar la dirección

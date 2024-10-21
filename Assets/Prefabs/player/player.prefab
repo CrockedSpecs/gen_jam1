@@ -191,7 +191,6 @@ MonoBehaviour:
   shootBool: 0
   facingRight: 1
   bullet: {fileID: 8956887037795773120, guid: e413efe14f86fce4cba9c82d40dabd0e, type: 3}
-  Bomb: {fileID: 4327323897768998829, guid: d1900328d922bb54c8a29e6c2a098e32, type: 3}
   shootAudioclip: {fileID: 8300000, guid: 80e397195ea2940b69ee7bdbded856a5, type: 3}
   jumpAudioClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   moveAudioClip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
