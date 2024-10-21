@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -102,14 +103,29 @@ public class GameManager : MonoBehaviour
     {
         if (!mood && index >= 0 && index <= 4)
         {
+            Debug.Log("soy 1");
             energy = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(5).gameObject.transform.GetChild(index).gameObject;
             energy.SetActive(mood);
         }
 
-        else if (mood && index >= 1 && index <= 5)
+        else if (mood && index == 0)
         {
-            energy = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(5).gameObject.transform.GetChild(index - 1).gameObject;
-            energy.SetActive(mood);
+            Debug.Log("soy 2");
+            StartCoroutine("GetEnergy");
+        }
+    }
+
+    //ReloadEnergy
+    IEnumerator GetEnergy()
+    {
+        int index = 0;
+        while (index < 5)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log("activate"+index);
+            energy = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(5).gameObject.transform.GetChild(index).gameObject;
+            energy.SetActive(true);
+            index++;         
         }
     }
 }
