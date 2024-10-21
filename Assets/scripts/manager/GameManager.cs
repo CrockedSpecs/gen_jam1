@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     //Declarations
     private bool isPaused;
 
-    [SerializeField] private GameObject gameOver, life, energy, gameOverText;
+    [SerializeField] private GameObject gameOver, life, energy, bomb, gameOverText;
     [SerializeField] private TextMeshProUGUI gameOverTextText;
     [SerializeField] private int levelIndex;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     }
 
     //ChanceScene
-    public void ChanceScene(string seneName)
+    public void ChangeScene(string seneName)
     {
         levelIndex = 1;
         SceneManager.LoadScene(seneName);
@@ -106,10 +107,29 @@ public class GameManager : MonoBehaviour
             energy.SetActive(mood);
         }
 
-        else if (mood && index >= 1 && index <= 5)
+        else if (mood && index == 0)
         {
-            energy = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(5).gameObject.transform.GetChild(index - 1).gameObject;
-            energy.SetActive(mood);
+            StartCoroutine("GetEnergy");
+        }
+    }
+
+    //ChangeBombState
+    public void ChangeBombState(bool mood)
+    {
+            bomb = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(6).gameObject;
+            bomb.SetActive(mood);
+    }
+
+    //ReloadEnergy
+    IEnumerator GetEnergy()
+    {
+        int index = 0;
+        while (index < 5)
+        {
+            yield return new WaitForSeconds(1);
+            energy = GameObject.FindGameObjectWithTag("UILevel").transform.GetChild(5).gameObject.transform.GetChild(index).gameObject;
+            energy.SetActive(true);
+            index++;         
         }
     }
 }

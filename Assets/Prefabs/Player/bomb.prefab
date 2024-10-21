@@ -172,6 +172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c35895a90b37b45804be1190b09209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bombInstanceAudioClip: {fileID: 8300000, guid: 79e6baad2fd414b82a6d49ce1568d2e5, type: 3}
+  explosionAudioClip: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
+  explosionReload: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
 --- !u!1001 &5806510928627839851
 PrefabInstance:
   m_ObjectHideFlags: 0
