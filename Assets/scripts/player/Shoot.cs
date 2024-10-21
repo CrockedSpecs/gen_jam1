@@ -15,17 +15,6 @@ public class Shoot : MonoBehaviour
 
     void Start()
     {
-        /*
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        if(playerMovement.facingRight)
-        {
-            direction = 1;
-        }
-        else if(!playerMovement.facingRight)
-        {
-            direction = 1;    
-        }
-        */
 
         direction = 1;
         usefulLife = 3;
