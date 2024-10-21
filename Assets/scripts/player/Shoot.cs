@@ -41,14 +41,20 @@ public class Shoot : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Entro");
         if (collision.gameObject.CompareTag("Floor"))
         {
             Destroy(collision.gameObject);
             AudioManager.instance.PlaySFX(collisonAudioClip);
-            usefulLife --;
+            usefulLife--;
+            Destroy(this.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
