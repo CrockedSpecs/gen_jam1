@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
                                         winAudioClip,
                                         gameOverAudioClip,
                                         reloadEnergyAudioClip;
-    [SerializeField] private bool isFloor;
+    [SerializeField] private bool isFloor, isEnergyEmpty, playerInmunity;
     [SerializeField] private int energy, lifes;
 
     private Vector2 movement; // Almacena la dirección del movimiento
@@ -37,21 +38,14 @@ public class PlayerMovement : MonoBehaviour
 
         energy = 5;
         lifes = 3;
-
-        InvokeRepeating("GetEnergy", 0, 5);
     }
     void Update()
     {
         // Obtener la entrada del jugador
         movement.x = Input.GetAxisRaw("Horizontal"); // Flechas o A/D
-        shoot();
 
-        if (lifes == 0)
-        {
-            AudioManager.instance.PlaySFX(gameOverAudioClip);
-            GameManager.instance.GameOver();
-            Destroy(gameObject);
-        }
+        shoot();
+        LifeMonitor();
         setBomb();
 
     }
@@ -109,6 +103,11 @@ public class PlayerMovement : MonoBehaviour
                 Instantiate(bullet, transform.position, Quaternion.identity);
             }
         }
+        if (energy == 0 && !isEnergyEmpty)
+        {
+            isEnergyEmpty = true;
+            StartCoroutine("GetEnergy");
+        }
     }
 
     void setBomb()
@@ -156,11 +155,13 @@ public class PlayerMovement : MonoBehaviour
             isFloor = true;
             animatorPlayer.SetBool("onFloor", onFloor);
         }
-        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0)
+        else if (collision.gameObject.CompareTag("Enemy") && lifes > 0 && !playerInmunity)
         {
             AudioManager.instance.PlaySFX(damageAudioClip);
             lifes--;
             GameManager.instance.ChangeLife(lifes, false);
+            playerInmunity = true;
+            StartCoroutine("PlayerInmunity");
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -179,19 +180,36 @@ public class PlayerMovement : MonoBehaviour
         else if (collision.gameObject.CompareTag("Finish") && lifes > 0)
         {
             AudioManager.instance.PlaySFX(winAudioClip);
-            GameManager.instance.ChanceScene("ProceduralLevel");
+            GameManager.instance.ChangeScene("ProceduralLevel");
             GameManager.instance.PassLevel();
         }
     }
 
-
-    private void GetEnergy()
+    private void LifeMonitor()
     {
-        if (energy < 5)
+        if (lifes == 0)
         {
-            energy = 5;
-            AudioManager.instance.PlaySFX(reloadEnergyAudioClip);
-            GameManager.instance.ChangeEnergy(energy, true);
+            AudioManager.instance.PlaySFX(gameOverAudioClip);
+            GameManager.instance.GameOver();
+            Destroy(gameObject);
         }
+    }
+
+
+        IEnumerator GetEnergy()
+    {
+        Debug.Log("entreacargar");
+        GameManager.instance.ChangeEnergy(energy, true);
+        yield return new WaitForSeconds(5);
+        energy = 5;
+        yield return new WaitForSeconds(0.1f);
+        isEnergyEmpty = false;
+        AudioManager.instance.PlaySFX(reloadEnergyAudioClip);    
+    }
+
+    IEnumerator PlayerInmunity()
+    {  
+        yield return new WaitForSeconds(1);
+        playerInmunity = false;
     }
 }
